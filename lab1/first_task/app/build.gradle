@@ -27,6 +27,10 @@ application {
 
 tasks.named('test') {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "failed", "skipped"  // Печатает информацию о тестах
+        exceptionFormat "full"  // Печатает полные стек-трейсы ошибок
+    }
 }
 
 tasks.withType(Jar) {
