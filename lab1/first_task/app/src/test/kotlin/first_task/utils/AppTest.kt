@@ -38,7 +38,7 @@ class TrigonometricTest {
         val expected = try {
             1.0 / Math.cos(param)
         } catch (e: ArithmeticException) {
-            Double.NaN // Обработка случаев, когда cos(param) = 0
+            Double.NaN
         }
         
         val actual = try {
@@ -49,14 +49,9 @@ class TrigonometricTest {
         }
 
         assertAll(
-            { assertEquals(expected, actual, 0.1) {
-                """
-                Failed for input: $param
-                Expected sec($param) = $expected
-                Actual sec($param) = $actual
-                Delta allowed: 0.1
-                """.trimIndent()
-            } }
+            { 
+                assertEquals(expected, actual, 0.1)
+            }
         )
     }
 
