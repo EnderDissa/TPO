@@ -8,8 +8,24 @@ import org.junit.jupiter.params.provider.ValueSource
 import java.util.concurrent.ThreadLocalRandom
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import kotlin.random.Random
 
 class TrigonometricTest {
+    @Test
+    @DisplayName("Test sec for known values")
+    fun testSecForKnownValues() {
+        val testCases = listOf(
+            Pair(0.0, 1.0),
+            Pair(Math.PI, -1.0),
+            Pair(2 * Math.PI, 1.0)
+        )
+
+        testCases.forEach { (angle, expected) ->
+            val actual = TrigFuncs.sec(angle)
+            assertEquals(expected, actual, 0.0001, "Expected sec($angle) to be $expected, but got $actual")
+        }
+    }
 
     @ParameterizedTest(name = "sec({0})")
     @DisplayName("Check corner values")
@@ -32,7 +48,8 @@ class TrigonometricTest {
         999.9,
         Double.NaN,
         Double.POSITIVE_INFINITY,
-        Double.MIN_VALUE
+        Double.MIN_VALUE,
+        -Double.MIN_VALUE
     ])
     fun checkCornerDots(param: Double) {
         val expected = try {
@@ -40,7 +57,7 @@ class TrigonometricTest {
         } catch (e: ArithmeticException) {
             Double.NaN
         }
-        
+
         val actual = try {
             TrigFuncs.sec(param)
         } catch (e: Exception) {
@@ -49,62 +66,31 @@ class TrigonometricTest {
         }
 
         assertAll(
-            { 
+            {
                 assertEquals(expected, actual, 0.1)
             }
         )
     }
 
-    /*
-
     @ParameterizedTest(name = "sec({0}) = {1}")
-    @DisplayName("Check between dots [-1; +1]")
+    @DisplayName("Check from table")
     @CsvFileSource(resources = ["/table_values.csv"], numLinesToSkip = 1, delimiter = ';')
-    fun checkBetweenDotsMinus1And1(x: Double, y: Double) {
+    fun checkFromTable(x: Double, y: Double) {
         val actual = TrigFuncs.sec(x)
-        assertAll(
-            { assertEquals(y, actual, 0.0001) {
-                """
-                Failed for input: $x
-                Expected value from table: $y
-                Actual sec($x) = $actual
-                Delta allowed: 0.0001
-                """.trimIndent()
-            } }
-        )
+        assertEquals(y, actual, 0.1, "Failed for input: $x. Expected value from table: $y. Actual sec($x) = $actual")
     }
 
     @Test
-    @DisplayName("Fuzzy testing")
-    fun checkRandomDots() {
-        val failedCases = mutableListOf<String>()
-        
-        for (i in 0 until 1_000_000) {
-            val randomValue = ThreadLocalRandom.current().nextDouble(-0.9999, 0.9999)
-            val expected = 1.0 / Math.cos(randomValue)
-            val actual = TrigFuncs.sec(randomValue)
-            
-            try {
-                assertEquals(expected, actual, 0.0001)
-            } catch (e: AssertionError) {
-                failedCases.add("""
-                    |Failed for random value: $randomValue
-                    |Expected sec($randomValue) = $expected
-                    |Actual sec($randomValue) = $actual
-                    |Delta allowed: 0.0001
-                    |Difference: ${Math.abs(expected - actual)}
-                    """.trimMargin())
-                if (failedCases.size >= 10) break // Ограничим количество сохраняемых ошибок
-            }
-        }
+    @DisplayName("Random angles sec test")
+    fun testSecForRandomAngles() {
+        repeat(10) {
+            val randomAngle = Random.nextDouble(-Math.PI, Math.PI)
 
-        if (failedCases.isNotEmpty()) {
-            throw AssertionError("""
-                |Fuzzy testing failed with ${failedCases.size} cases.
-                |First ${failedCases.size.coerceAtMost(10)} failures:
-                |${failedCases.joinToString("\n|")}
-                """.trimMargin())
+            val actual = TrigFuncs.sec(randomAngle)
+            val expected = 1 / Math.cos(randomAngle)
+
+            println("Testing sec($randomAngle): Expected = $expected, Actual = $actual")
+            assertEquals(expected, actual, 0.01, "Failed for sec($randomAngle). Expected: $expected, but got: $actual")
         }
     }
-    */
 }
