@@ -2,6 +2,7 @@ package first_task.utils
 
 import kotlin.math.PI
 import kotlin.math.floor
+import kotlin.math.cos
 import kotlin.math.abs 
 
 object TrigFuncs {
@@ -22,6 +23,11 @@ object TrigFuncs {
         for (n in 1 until terms) {
             fact *= -1 * x * x / (2 * n) / (2 * n - 1)
             result += fact
+        }
+
+        val cosX = cos(x)
+        if (cosX == 0.0) {
+            return Double.MAX_VALUE
         }
         return 1 / result
     }
