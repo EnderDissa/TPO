@@ -1,29 +1,32 @@
 package third_task
 
+import third_task.utils.commands.*
+import third_task.utils.objects.*
 import third_task.utils.*
 
 fun main() {
-    val arthur = Person(
-        name = "Артур",
-        currentBeverage = Beverage(BeverageType.BEER)
-    ).apply {
-        actions.add(Action.HICCUP)
-        actions.add(Action.CHOKE)
-        actions.add(Action.JUMP)
-    }
+    val arthur = Person("Arthur")
+    val ford = Person("Ford")
+    val drunk = Person("Drunk Guy")
+    val beer = Drink("beer")
+    val whiskey = Drink("whiskey")
+    val music = Sound("ROCK")
+    val jukebox = Jukebox(music)
+    val conversation = Conversation(listOf(arthur, ford, drunk))
+    val bar = Bar(listOf(arthur, ford, drunk), jukebox, listOf(conversation))
 
-    val ford = Person(
-        name = "Форд"
-    ).apply {
-        actions.add(Action.OFFER_WHISKEY)
-    }
+    bar.runBackgroundEvents()
 
-    val scene = Scene(
-        description = "Барная сцена: разговоры, музыка автомата и глухой рокот снаружи",
-        persons = listOf(arthur, ford),
-        musicAutomat = MusicAutomat(song = "Classic Rock", volume = 70),
-        soundEvent = SoundEvent(description = "Глухой рокот снаружи", volume = 80)
-    )
+    drunk.performAction(HiccupCommand(drunk))
+    ford.performAction(OfferDrinkCommand(ford, drunk, whiskey))
 
-    println(scene)
+    val sound = Sound("dull roar")
+    sound.reach(listOf(arthur, ford))
+
+    arthur.performAction(ChokeCommand(arthur, beer))
+    arthur.performAction(JumpUpCommand(arthur))
+
+    // Undo example
+    println("\n-- Undoing last action --")
+    arthur.undoLastAction() // Arthur sits back down
 }

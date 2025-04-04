@@ -1,5 +1,7 @@
 package third_task.utils
 
+import third_task.utils.commands.*
+
 class Person(val name: String) {
     private val actionHistory = mutableListOf<UndoableCommand>()
 

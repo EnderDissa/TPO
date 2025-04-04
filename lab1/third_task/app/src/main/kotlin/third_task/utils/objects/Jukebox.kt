@@ -1,5 +1,7 @@
 package third_task.utils.objects
 
+import third_task.utils.*
+
 class Jukebox(
     val sound: Sound
 ) {

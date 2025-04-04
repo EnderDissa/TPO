@@ -1,5 +1,7 @@
 package third_task.utils.objects
 
+import third_task.utils.*
+
 class Bar(
     val people: List<Person>,
     val jukebox: Jukebox,
@@ -7,6 +9,6 @@ class Bar(
 ) {
     fun runBackgroundEvents() {
         conversations.forEach { it.happen() }
-        jukebox.playMusic()
+        jukebox.playMusic(people)
     }
 }
