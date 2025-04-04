@@ -53,7 +53,7 @@ class HashTableJUnit5Test {
         assertEquals(1, table.count())
         assertFalse("a" in table)
         assertTrue("b" in table)
-    } //
+    }
 
     @Test
     fun `test resizing`() {
