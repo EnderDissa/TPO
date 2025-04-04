@@ -16,7 +16,7 @@ class HashTableJUnit5Test {
 
     @Test
     fun `test insertion and lookup`() {
-        val table = HashTable<String>(4) // Small size to test resizing
+        val table = HashTable<String>(4)
         
         table += "a"
         table += "b"
@@ -53,7 +53,7 @@ class HashTableJUnit5Test {
         assertEquals(1, table.count())
         assertFalse("a" in table)
         assertTrue("b" in table)
-    }
+    } //
 
     @Test
     fun `test resizing`() {

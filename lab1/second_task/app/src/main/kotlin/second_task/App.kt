@@ -8,21 +8,5 @@ fun main() {
     table += "a"
     table += "b"
     table += "c"
-    
-    /*
-    table += "apple"
-    table += "banana"
-    table += "orange"
-    
-    println("apple" in table) // true
-    println("pear" in table)  // false
-    
-    table.remove("banana")
-    println("banana" in table) // false
-    
-    println(table.count()) // 2
-    println(table.loadFactor())
-    
-    println(table) // [apple, orange]
-    */
+
 }

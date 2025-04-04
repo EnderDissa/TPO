@@ -110,5 +110,5 @@ class HashTable<V>(initialSize: Int = 28) {
 
     override fun toString(): String {
         return values.filter { it != null && it != deleted }.joinToString()
-    }
+    }//
 }
