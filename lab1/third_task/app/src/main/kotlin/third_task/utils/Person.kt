@@ -17,4 +17,6 @@ class Person(val name: String) {
             actionHistory.removeLast().undo()
         }
     }
+
+    fun getActionHistory()  = actionHistory
 }
