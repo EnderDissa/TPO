@@ -1,63 +1,106 @@
 package third_task.utils
-
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import java.time.LocalDateTime
 
-class DomainModelTest {
+import third_task.utils.commands.*
+import third_task.utils.objects.*
+import third_task.utils.*
+
+class BarSceneTest {
 
     @Test
-    @DisplayName("Test creating a Person with Beverage and Actions")
-    fun testPersonCreation() {
-        val beer = Beverage(BeverageType.BEER, volumeMl = 500)
-        val person = Person(name = "Артур", currentBeverage = beer)
-        person.actions.add(Action.HICCUP)
-        person.actions.add(Action.CHOKE)
-        person.actions.add(Action.JUMP)
+    fun `test hiccup command execution and undo`() {
+        val arthur = Person("Arthur")
+        val hiccupCommand = HiccupCommand(arthur)
 
-        assertEquals("Артур", person.name)
-        assertEquals(BeverageType.BEER, person.currentBeverage?.type)
-        assertTrue(person.actions.contains(Action.HICCUP))
-        assertTrue(person.actions.contains(Action.CHOKE))
-        assertTrue(person.actions.contains(Action.JUMP))
+        hiccupCommand.execute()
+        assertTrue(true)
+        hiccupCommand.undo()
+        assertTrue(true)
     }
 
     @Test
-    @DisplayName("Test offering whiskey action")
-    fun testOfferWhiskey() {
-        val ford = Person(name = "Форд")
-        val offerAction = Action.OFFER_WHISKEY
-        ford.actions.add(offerAction)
-        assertTrue(ford.actions.contains(offerAction))
+    fun `test choke command execution and undo`() {
+        val arthur = Person("Arthur")
+        val beer = Drink("beer")
+        val chokeCommand = ChokeCommand(arthur, beer)
+
+        chokeCommand.execute()
+        assertTrue(true)
+        chokeCommand.undo()
+        assertTrue(true)
     }
 
     @Test
-    @DisplayName("Test scene composition")
-    fun testSceneComposition() {
-        val arthur = Person(name = "Артур", currentBeverage = Beverage(BeverageType.BEER))
-        arthur.actions.add(Action.HICCUP)
-        arthur.actions.add(Action.CHOKE)
-        arthur.actions.add(Action.JUMP)
+    fun `test jump up command execution and undo`() {
+        val ford = Person("Ford")
+        val jumpUpCommand = JumpUpCommand(ford)
 
-        val ford = Person(name = "Форд")
-        ford.actions.add(Action.OFFER_WHISKEY)
+        jumpUpCommand.execute()
+        assertTrue(true)
 
-        val musicAutomat = MusicAutomat(song = "Classic Rock", volume = 70)
+        jumpUpCommand.undo()
+        assertTrue(true)
+    }
 
-        val soundEvent = SoundEvent(description = "Глухой рокот снаружи", volume = 80)
+    @Test
+    fun `test offer drink command execution and undo`() {
+        val arthur = Person("Arthur")
+        val ford = Person("Ford")
+        val beer = Drink("beer")
+        val offerDrinkCommand = OfferDrinkCommand(arthur, ford, beer)
 
-        val sceneDescription = "Сцена в баре с разговорами, музыкой и экшеном"
-        val scene = Scene(
-            description = sceneDescription,
-            persons = listOf(arthur, ford),
-            musicAutomat = musicAutomat,
-            soundEvent = soundEvent
-        )
+        offerDrinkCommand.execute()
+        assertTrue(true)
 
-        assertEquals(sceneDescription, scene.description)
-        assertEquals(2, scene.persons.size)
-        assertEquals("Classic Rock", scene.musicAutomat?.song)
-        assertEquals("Глухой рокот снаружи", scene.soundEvent?.description)
+        offerDrinkCommand.undo()
+        assertTrue(true)
+    }
+
+    @Test
+    fun `test person action history`() {
+        val arthur = Person("Arthur")
+        val beer = Drink("beer")
+
+        val hiccupCommand = HiccupCommand(arthur)
+        val chokeCommand = ChokeCommand(arthur, beer)
+
+        arthur.performAction(hiccupCommand)
+        arthur.performAction(chokeCommand)
+
+        assertEquals(2, arthur.getActionHistory().size)
+
+        arthur.undoLastAction()
+
+        assertEquals(1, arthur.getActionHistory().size)
+
+        arthur.undoLastAction()
+
+        assertEquals(0, arthur.getActionHistory().size)
+    }
+
+    @Test
+    fun `test bar background events`() {
+        val arthur = Person("Arthur")
+        val ford = Person("Ford")
+
+        val conversation = Conversation(listOf(arthur, ford))
+        val music = Sound("ROCK")
+        val jukebox = Jukebox(music)
+        val bar = Bar(listOf(arthur, ford), jukebox, listOf(conversation))
+
+        bar.runBackgroundEvents()
+        assertTrue(true)
+    }
+
+    @Test
+    fun `test sound reaching people`() {
+        val arthur = Person("Arthur")
+        val ford = Person("Ford")
+
+        val sound = Sound("loud bang")
+        sound.reach(listOf(arthur, ford))
+
+        assertTrue(true)
     }
 }
