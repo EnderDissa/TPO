@@ -4,6 +4,7 @@ import third_task.utils.commands.*
 
 class Person(val name: String) {
     private val actionHistory = mutableListOf<UndoableCommand>()
+    private var state = ""
 
     fun performAction(command: Command) {
         command.execute()
@@ -19,4 +20,10 @@ class Person(val name: String) {
     }
 
     fun getActionHistory()  = actionHistory
+
+    fun setState(state: String) {
+        this.state = state
+    }
+
+    fun getState() = state
 }
