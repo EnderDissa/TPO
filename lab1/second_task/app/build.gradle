@@ -8,7 +8,6 @@ repositories {
 }
 
 dependencies {
-    // Явное указание версий (или используйте version catalog)
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'com.google.guava:guava:32.1.3-jre'
@@ -21,7 +20,7 @@ java {
 }
 
 application {
-    mainClass = 'first_task.AppKt'
+    mainClass = 'second_task.AppKt'
 }
 
 tasks.named('test') {
