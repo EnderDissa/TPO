@@ -2,6 +2,8 @@ package trig_task.math
 
 import kotlin.math.abs
 import kotlin.math.floor
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 object BasicFun {
     private val sinMap = HashMap<Double, Double>()
@@ -31,6 +33,12 @@ object BasicFun {
         sinMap[x] = res
 
         return res
+    }
+
+    fun cos(x: Double) = if (abs(normalizeAngleToMinusPiPi(x)) <= Math.PI) {
+        sqrt(1 - sin(x).pow(2))
+    } else {
+        -sqrt(1 - sin(x).pow(2))
     }
 
     fun ln(x: Double): Double {
