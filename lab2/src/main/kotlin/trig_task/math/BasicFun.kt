@@ -60,10 +60,12 @@ object BasicFun {
             iters++
         }
 
+        /*
         while (value < 1.0) {
             value *= Math.E
             iters--
         }
+        */
 
         while (abs(res - prevRes) > 1e-10) {
             prevRes = res

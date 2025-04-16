@@ -11,7 +11,8 @@ class CSVWriter(
         fileName: String,
         startValue: Double,
         endValue: Double,
-        numberOfRows: Int
+        numberOfRows: Int,
+        function: (Double) -> Double
     ) {
         if (fileName.isEmpty()) return
         val fileWriter = FileWriter(writeDir + fileName)
@@ -19,7 +20,7 @@ class CSVWriter(
         val step = (endValue - startValue) / numberOfRows
         fileWriter.write("argument" + delimiter + "result" + lineEnd)
         for (i in 1..numberOfRows) {
-            fileWriter.write("" + (startValue + step * i) + delimiter + Equation.getResult(startValue + step * i) + lineEnd)
+            fileWriter.write("" + (startValue + step * i) + delimiter + function(startValue + step * i) + lineEnd)
         }
 
         fileWriter.close()
