@@ -3,7 +3,7 @@ package trig_task.math
 import trig_task.IComplexFun
 import kotlin.math.abs
 
-object ComplexFun : IComplexFun{
+object ComplexFun : IComplexFun {
     override fun log5(x: Double) = BasicFun.ln(x) / BasicFun.ln(5.0)
 
     override fun log10(x: Double) = BasicFun.ln(x) / BasicFun.ln(10.0)

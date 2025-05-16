@@ -87,7 +87,7 @@ object BasicFun : IBasicFun{
     }
 }
 
-object BasicFunStub : IBasicFun{
+object BasicFunStub : IBasicFun {
     private val sinTable = mapOf(
         Math.PI / 6 to 0.5,
         Math.PI / 4 to 0.70710678,
