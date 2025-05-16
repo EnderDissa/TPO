@@ -1,15 +1,16 @@
 package trig_task.math
 
+import trig_task.IBasicFun
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-object BasicFun {
+object BasicFun : IBasicFun{
     private val sinMap = HashMap<Double, Double>()
     private val lnMap = HashMap<Double, Double>()
 
-    fun sin(x: Double): Double {
+    override fun sin(x: Double): Double {
         var res = .0
         var prevRes = -Double.MAX_VALUE
         var fact = -1.0
@@ -35,13 +36,13 @@ object BasicFun {
         return res
     }
 
-    fun cos(x: Double) = if (abs(normalizeAngleToMinusPiPi(x)) <= Math.PI) {
+    override fun cos(x: Double) = if (abs(normalizeAngleToMinusPiPi(x)) <= Math.PI) {
         sqrt(1 - sin(x).pow(2))
     } else {
         -sqrt(1 - sin(x).pow(2))
     }
 
-    fun ln(x: Double): Double {
+    override fun ln(x: Double): Double {
         if (x <= 0) {
             throw IllegalArgumentException("x must be positive")
         }
@@ -84,4 +85,38 @@ object BasicFun {
 
         return if (normalized2Pi > Math.PI) normalized2Pi - 2 * Math.PI else normalized2Pi
     }
+}
+
+object BasicFunStub : IBasicFun{
+    private val sinTable = mapOf(
+        Math.PI / 6 to 0.5,
+        Math.PI / 4 to 0.70710678,
+        Math.PI / 2 to 1.0,
+        Math.PI to 0.0,
+        -Math.PI / 2 to -1.0
+    )
+    private val cosTable = mapOf(
+        0.0 to 1.0,
+        Math.PI / 6 to 0.8660254,
+        Math.PI / 4 to 0.70710678,
+        Math.PI / 2 to 0.0,
+        Math.PI to -1.0,
+        -Math.PI / 2 to 0.0
+    )
+
+    private val lnTable = mapOf(
+        1.0 to 0.0,
+        Math.E to 1.0,
+        10.0 to 2.302585,
+        0.5 to -0.693147
+    )
+
+    override fun sin(x: Double): Double =
+        sinTable[x] ?: throw IllegalArgumentException("Value $x not in sin stub table")
+
+    override fun cos(x: Double): Double =
+        cosTable[x] ?: throw IllegalArgumentException("Value $x not in cos stub table")
+
+    override fun ln(x: Double): Double =
+        lnTable[x] ?: throw IllegalArgumentException("Value $x not in ln stub table")
 }
