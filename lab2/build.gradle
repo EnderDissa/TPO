@@ -1,5 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '2.0.21'
+    id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
 
 group = 'lab2'
@@ -15,4 +16,21 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+kover {
+    reports {
+        total {
+            xml {
+                true
+            }
+        }
+        verify {
+            rule {
+                bound{
+                    minValue = 75
+                }
+            }
+        }
+    }
 }
