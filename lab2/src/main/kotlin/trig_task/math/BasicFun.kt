@@ -6,7 +6,7 @@ import kotlin.math.floor
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-object BasicFun : IBasicFun{
+object BasicFunImpl: BasicFunctions{
     private val sinMap = HashMap<Double, Double>()
     private val lnMap = HashMap<Double, Double>()
 
@@ -87,7 +87,7 @@ object BasicFun : IBasicFun{
     }
 }
 
-object BasicFunStub : IBasicFun {
+object BasicFunImpl: BasicFunctions {
     private val sinTable = mapOf(
         Math.PI / 6 to 0.5,
         Math.PI / 4 to 0.70710678,

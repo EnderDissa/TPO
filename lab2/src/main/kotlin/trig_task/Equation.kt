@@ -4,13 +4,13 @@ import trig_task.math.*
 import kotlin.math.abs
 import kotlin.math.pow
 
-interface IBasicFun {
+interface BasicFunctions {
     fun sin(x: Double): Double
     fun cos(x: Double): Double
     fun ln(x: Double): Double
 }
 
-interface IComplexFun {
+interface ComplexFunctions {
     fun tan(x: Double): Double
     fun sec(x: Double): Double
     fun csc(x: Double): Double
@@ -18,7 +18,7 @@ interface IComplexFun {
     fun log10(x: Double): Double
 }
 
-open class Equation(private val basicFun: IBasicFun, private val complexFun: IComplexFun) {
+open class Equation(private val basicFun: BasicFunctions, private val complexFun: ComplexFunctions) {
 
     private fun firstPart(x: Double): Double {
         val r1 = ComplexFun.tan(x) + ComplexFun.sec(x) + BasicFun.sin(x)
@@ -44,5 +44,4 @@ open class Equation(private val basicFun: IBasicFun, private val complexFun: ICo
         secondPart(x)
     }
 }
-object EquationSingletonStub : Equation(BasicFunStub, ComplexFunStub)
-object EquationSingleton : Equation(BasicFun, ComplexFun)
+object EquationSingleton : Equation(BasicFunImpl, ComplexFunImpl)
