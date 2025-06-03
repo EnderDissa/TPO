@@ -13,7 +13,7 @@ class RedisExcel(
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val formatted = currentDateTime.format(formatter)
 
-        val fullName = "${name}_${userId}_${connectId}_${formatted}"
+        val fullName = "${name}_${userId}_${connectId}_${formatted}.xlsx"
 
         Jedis(host, port).use { jedis ->
             jedis.set("${userId}_${connectId}", fullName)
