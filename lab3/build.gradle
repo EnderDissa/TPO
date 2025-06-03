@@ -1,0 +1,45 @@
+plugins {
+    id 'application'
+    id 'org.jetbrains.kotlin.jvm' version '2.0.10'
+}
+
+group = 'lab2'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(19)
+    }
+}
+
+dependencies {
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.30.0'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "failed", "skipped"
+        exceptionFormat "full"
+    }
+}
+
+tasks.withType(Jar) {
+    manifest {
+        attributes(
+                'Main-Class': 'MainKt',
+                'Multi-Release': 'true'
+        )
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from sourceSets.main.output
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
