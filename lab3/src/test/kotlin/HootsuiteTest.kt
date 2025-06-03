@@ -1,12 +1,11 @@
 import org.openqa.selenium.*
 import org.openqa.selenium.Dimension
 import org.openqa.selenium.firefox.FirefoxDriver
-import org.openqa.selenium.support.ui.ExpectedConditions
-import org.openqa.selenium.support.ui.WebDriverWait
 import java.time.Duration
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class HootsuiteTest {
     private lateinit var driver: WebDriver
@@ -23,20 +22,13 @@ class HootsuiteTest {
     }
 
     @Test
-    fun myIvi() {
+    fun myHootSuite() {
         driver.get("https://www.hootsuite.com/")
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10))
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2))
 
-        val wait = WebDriverWait(driver, Duration.ofSeconds(10))
-
-        val menuItem = wait.until(
-            ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='headerTop']/div/div/div/div/div[2]/nav/ul/li/a/div"))
-        )
+        val menuItem = driver.findElement(By.xpath("//a[@data-ga-track-id='header_nav_pricing_new_plan_25']"))
         menuItem.click()
-
-        val modal = wait.until(
-            ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='modal-container']/div/div[2]/div/div/div/section/div/div/div"))
-        )
-        modal.click()
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2))
+        assertTrue(driver.pageSource?.contains("Pick the plan that's right for you")!!)
     }
 }
